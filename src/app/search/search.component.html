@@ -1,0 +1,100 @@
+<div class="main-container">
+  <form [formGroup]="searchForm" (ngSubmit)="searchMovies()">
+    <div class="formgroup-inline">
+      <div class="field flex flex-row align-items-center flex-grow-1 md:flex-grow-0">
+        <label for="title">Tytuł:</label>
+        <div class="flex flex-column gap-2 relative flex-grow-1 md:flex-grow-0">
+          <input pInputText type="text" id="title" aria-describedby="title-help" formControlName="searchTitle" [ngClass]="{'ng-invalid': searchForm.get('searchTitle')?.invalid}"/>
+          <small *ngIf="searchForm.get('searchTitle')?.invalid && (searchForm.get('searchTitle')?.dirty || searchForm.get('searchTitle')?.touched)" id="title-help" class="error-message">
+            Tytuł jest wymagany.
+          </small>
+        </div>
+      </div>
+      <div class="field flex flex-row align-items-center flex-grow-1 md:flex-grow-0">
+        <label for="year">Rok:</label>
+        <input pInputText type="text" id="year" formControlName="searchYear" class="flex-grow-1 md:flex-grow-0"/>
+      </div>
+      <div class="field flex flex-row align-items-center flex-grow-1 md:flex-grow-0">
+        <label>Typ:</label>
+        <p-dropdown formControlName="searchType" [options]="searchTypes" placeholder="Wybierz typ"></p-dropdown>
+      </div>
+      <p-button type="submit" label="Szukaj" [disabled]="!searchForm.valid"></p-button>
+      <p-button (click)="resetForm()" label="Wyczyść" [disabled]="!searchForm.valid" class="pl-2"></p-button>
+    </div>
+  </form>
+</div>
+
+<!-- SEARCH RESULTS -->
+<div class="card" *ngIf="formSubmitted">
+  <div class="field flex flex-row align-items-center">
+    <h4 class="font-semibold">Wyniki wyszukiwania:</h4>
+    <p-badge *ngIf="searchResults" [value]="searchResults.totalResults" class="ml-8"></p-badge>
+  </div>
+  <p-dataView #dv *ngIf="searchResults; else noResults" [value]="getCurrentResults()" [layout]="'list'">
+    <ng-template pTemplate="header">
+      <div class="flex justify-content-end">
+        <p-dataViewLayoutOptions></p-dataViewLayoutOptions>
+      </div>
+    </ng-template>
+    <!-- LIST -->
+    <ng-template let-product pTemplate="list" let-products>
+      <div class="grid grid-nogutter">
+        <div class="col-12" *ngFor="let movie of searchResults.Search; let first = first">
+          <div class="flex flex-column xl:flex-row xl:align-items-start p-4 gap-4" [ngClass]="{ 'border-top-1 surface-border': !first }">
+            <img class="w-9 sm:w-16rem xl:w-10rem shadow-2 block xl:block mx-auto border-round" [src]="movie.Poster === 'N/A' ? '../assets/img/No-Image-Placeholder.svg' : movie.Poster" [alt]="movie.imdbID"/>
+            <div class="flex flex-column sm:flex-row justify-content-between align-items-center xl:align-items-start flex-1 gap-4">
+              <div class="flex flex-column align-items-center sm:align-items-start gap-3">
+                <div class="text-2xl font-bold text-900">{{ movie.Title }}</div>
+                <div class="flex align-items-center gap-3">
+                    <span class="flex align-items-center gap-2">
+                        <span class="font-semibold">{{ movie.Year }}</span>
+                    </span>
+                </div>
+              </div>
+              <div class="flex sm:flex-column align-items-center sm:align-items-end gap-3 sm:gap-2">
+                <p-button label="Zobacz szczegóły" (click)="goToMovieDetails(movie.imdbID)" [disabled]="!searchForm.valid"></p-button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+    <!-- GRID -->
+    <ng-template let-product pTemplate="grid" let-products>
+      <div class="grid grid-nogutter">
+        <div class="col-12 sm:col-6 lg:col-6 xl:col-4 p-2" *ngFor="let movie of searchResults.Search;">
+          <div class="p-4 border-1 surface-border surface-card border-round height-100">
+            <div class="flex flex-column align-items-center  pb-5">
+              <img class="w-9 shadow-2 border-round" [src]="movie.Poster === 'N/A' ? '../assets/img/No-Image-Placeholder.svg' : movie.Poster" [alt]="movie.imdbID"/>
+              <div class="text-2xl font-bold text-center pt-3">{{ movie.Title }}</div>
+            </div>
+            <div class="flex flex-column align-items-center gap-3">
+              <span class="flex align-items-center gap-2 pb-3">
+                  <span class="font-semibold">{{ movie.Year }}</span>
+              </span>
+            </div>
+            <div class="flex flex-column align-items-center gap-3">
+              <p-button label="Zobacz szczegóły" (click)="goToMovieDetails(movie.imdbID)" [disabled]="!searchForm.valid"></p-button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </p-dataView>
+
+  <!-- PAGINATION -->
+  <div *ngIf="searchResults" class="card pt-5">
+      <div class="pagination flex justify-content-center align-items-center">
+        <p-button (click)="prevPage()" icon="pi pi-angle-double-left" [text]="true" [disabled]="currentPage === 1"></p-button>
+        <span class="ml-8 mr-8">Strona {{ currentPage }} / {{getTotalPages()}}</span>
+        <p-button (click)="nextPage()" icon="pi pi-angle-double-right" [text]="true" [disabled]="currentPage === getTotalPages()"></p-button>
+      </div>
+  </div>
+
+  <ng-template #noResults>
+    Brak wyników
+  </ng-template>
+</div>
+
+<!-- LOADER -->
+<app-search-loader [loading]="loading"></app-search-loader>

@@ -1,0 +1,41 @@
+<p-button (click)="goBack()" label="Powrót do wyszukiwania" icon="pi pi-angle-double-left" class="hidden sm:block"></p-button>
+<p-button (click)="goBack()" icon="pi pi-angle-double-left" class="block sm:hidden"></p-button>
+
+<div *ngIf="movieDetails" class="movie-details-container grid">
+  <div class="movie-details col-12 md:col-6 sm:col-8">
+    <h2>{{ movieDetails.Title }}</h2>
+    <p><span class="info">Typ:</span> {{ movieDetails.Type }}</p>
+    <p><span class="info">Rok:</span> {{ movieDetails.Year }}</p>
+    <p><span class="info">Reżyser:</span> {{ movieDetails.Director }}</p>
+    <p><span class="info">Kraj:</span> {{ movieDetails.Country }}</p>
+    <p><span class="info">Rodzaj:</span> {{ movieDetails.Genre }}</p>
+    <p><span class="info">Rating PG:</span> {{ movieDetails.Rated }}</p>
+    <div class="imdb-rating">
+      <div class="flex align-items-center flex-wrap">
+        <div class="pr-4"><span class="info">Ocena na IMDB:</span> {{ movieDetails.imdbRating }}</div>
+        <span class="Stars" [style.--rating]="movieDetails.imdbRating" [attr.aria-label]="'Rating of this product is ' + movieDetails.imdbRating + ' out of 5'"></span>
+      </div>
+      <div *ngIf="movieDetails.Ratings.length" class="movie-details-other-ratings">
+        <p><span class="info">Pozostałe Oceny:</span></p>
+        <ul>
+          <li *ngFor="let rating of movieDetails.Ratings">
+            {{ rating.Source }}: {{ rating.Value }}
+          </li>
+        </ul>
+      </div>
+      <details open class="mt-5 mb-5">
+        <summary><span class="info">Opis</span></summary>
+        <p class="movie-details-plot-content">
+          {{ movieDetails.Plot }}
+        </p>
+      </details>
+      <p><span class="info">Długośc:</span> {{ movieDetails.Runtime }}</p>
+      <p><span class="info">Box Office:</span> {{ movieDetails.BoxOffice }}</p>
+      <p><span class="info">Nagrody:</span> {{ movieDetails.Awards }}</p>
+      <p><span class="info">Aktorzy:</span> {{ movieDetails.Actors }}</p>
+    </div>
+  </div>
+  <div class="movie-details-right col-12 md:col-4 sm:col-4">
+    <img [src]="movieDetails.Poster === 'N/A' ? '../assets/img/No-Image-Placeholder.svg' : movieDetails.Poster" alt="{{ movieDetails.Title }} Poster">
+  </div>
+</div>
