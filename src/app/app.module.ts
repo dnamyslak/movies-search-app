@@ -15,9 +15,10 @@ import { DropdownModule } from 'primeng/dropdown';
 import { InputTextModule } from 'primeng/inputtext';
 import { DataViewModule } from 'primeng/dataview';
 import { BadgeModule } from 'primeng/badge';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 @NgModule({
-  declarations: [AppComponent, SearchComponent, MovieDetailsComponent, SearchLoaderComponent],
+  declarations: [AppComponent, SearchComponent, MovieDetailsComponent, SearchLoaderComponent, NotFoundComponent],
   imports: [
     BrowserModule,
     CommonModule,

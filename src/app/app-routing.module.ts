@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { SearchComponent } from './search/search.component';
 import { MovieDetailsComponent } from './movie-details/movie-details.component';
 import { MovieDetailsResolver } from './resolvers/movie-details.resolver';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 export const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'search' },
@@ -14,6 +15,8 @@ export const routes: Routes = [
       movieDetails: MovieDetailsResolver
     }
   },
+  { path: '404', component: NotFoundComponent },
+  { path: '**', redirectTo: '/404' }
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
