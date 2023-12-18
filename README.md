@@ -32,3 +32,9 @@ Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To u
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+
+
+PREVIEW
+![movie-search-app](https://github.com/dnamyslak/movies-search-app/assets/20269246/93086678-54a4-4107-94c1-7534b0ed3db8)
+
+DEMO: https://www.dnamyslak.eu/angular/movies-search-app/search 
