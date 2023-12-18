@@ -41,7 +41,7 @@
       <div class="grid grid-nogutter">
         <div class="col-12" *ngFor="let movie of searchResults.Search; let first = first">
           <div class="flex flex-column xl:flex-row xl:align-items-start p-4 gap-4" [ngClass]="{ 'border-top-1 surface-border': !first }">
-            <img class="w-9 sm:w-16rem xl:w-10rem shadow-2 block xl:block mx-auto border-round" [src]="movie.Poster === 'N/A' ? '../assets/img/No-Image-Placeholder.svg' : movie.Poster" [alt]="movie.imdbID"/>
+            <img class="w-9 sm:w-16rem xl:w-10rem shadow-2 block xl:block mx-auto border-round" [src]="movie.Poster === 'N/A' ? 'assets/img/No-Image-Placeholder.svg' : movie.Poster" [alt]="movie.imdbID"/>
             <div class="flex flex-column sm:flex-row justify-content-between align-items-center xl:align-items-start flex-1 gap-4">
               <div class="flex flex-column align-items-center sm:align-items-start gap-3">
                 <div class="text-2xl font-bold text-900">{{ movie.Title }}</div>
@@ -65,7 +65,7 @@
         <div class="col-12 sm:col-6 lg:col-6 xl:col-4 p-2" *ngFor="let movie of searchResults.Search;">
           <div class="p-4 border-1 surface-border surface-card border-round height-100">
             <div class="flex flex-column align-items-center  pb-5">
-              <img class="w-9 shadow-2 border-round" [src]="movie.Poster === 'N/A' ? '../assets/img/No-Image-Placeholder.svg' : movie.Poster" [alt]="movie.imdbID"/>
+              <img class="w-9 shadow-2 border-round" [src]="movie.Poster === 'N/A' ? 'assets/img/No-Image-Placeholder.svg' : movie.Poster" [alt]="movie.imdbID"/>
               <div class="text-2xl font-bold text-center pt-3">{{ movie.Title }}</div>
             </div>
             <div class="flex flex-column align-items-center gap-3">
